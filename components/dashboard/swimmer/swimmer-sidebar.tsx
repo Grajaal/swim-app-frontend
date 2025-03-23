@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { BrandHeader } from './dashboard/brand-header'
+import { BrandHeader } from '../brand-header'
 
 // This is sample data.
 const data = {
