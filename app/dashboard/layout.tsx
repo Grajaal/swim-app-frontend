@@ -1,8 +1,9 @@
 'use client'
 
-import { CoachSidebar } from "@/components/coach-sidebar"
-import { SwimmerSidebar } from '@/components/swimmer-sidebar'
-import { DashboardHeader } from '@/components/dashboard/dashboard-header'
+import { CoachSidebar } from "@/components/dashboard/coach/coach-sidebar"
+import { SwimmerSidebar } from '@/components/dashboard/swimmer/swimmer-sidebar'
+import { CoachHeader } from '@/components/dashboard/coach/coach-header'
+import { SwimmerHeader } from '@/components/dashboard/swimmer/swimmer-header'
 import {
   SidebarInset,
   SidebarProvider,
@@ -16,8 +17,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (isLoading) {
     return <div className="flex items-center justify-center h-full">Loading...</div>
   }
-  console.log(user)
+
   const SidebarComponent = user.role === 'COACH' ? CoachSidebar : SwimmerSidebar
+  const DashboardHeader = user.role === 'COACH' ? CoachHeader : SwimmerHeader
 
   return (
     <SidebarProvider>
