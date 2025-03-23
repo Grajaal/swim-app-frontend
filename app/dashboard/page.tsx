@@ -1,16 +1,13 @@
 'use client'
 
-import { useUser } from '@/hooks/use-user'
 import CoachDashboard from '@/components/pages/coach-dashboard'
 import SwimmerDashboard from '@/components/pages/swimmer-dashboard'
+import { useUserStore } from '@/lib/store/use-auth-store'
 
 export default function DashboardPage() {
-  const { user, isLoading } = useUser()
+  const user = useUserStore((state) => state.user)
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-full">Loading...</div>
-  }
-  return user.role === 'COACH' ? (
+  return user?.role === 'COACH' ? (
     <CoachDashboard />
   ) : (
     <SwimmerDashboard />

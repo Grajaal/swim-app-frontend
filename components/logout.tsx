@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { useUserStore } from '@/lib/store/use-auth-store'
 import { useRouter } from 'next/navigation'
 
 export function Logout() {
@@ -12,6 +13,8 @@ export function Logout() {
           method: 'POST',
           credentials: 'include'
         })
+
+        useUserStore.getState().setUser(null)
 
         router.push('/login')
       }}

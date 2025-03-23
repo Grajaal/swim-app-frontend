@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { LoginFormValues, loginSchema } from "@/lib/schemas/auth"
+import { useUserStore } from '@/lib/store/use-auth-store'
 
 export function LoginForm({
   className,
@@ -29,6 +30,12 @@ export function LoginForm({
 
       if (!response.ok) {
         throw { status: response.status }
+      }
+
+      const { user } = await response.json()
+
+      if (user) {
+        useUserStore.getState().setUser(user)
       }
 
       router.push('/dashboard')

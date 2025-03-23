@@ -1,14 +1,10 @@
 import { Button } from '@/components/ui/button'
+import { useUserStore } from '@/lib/store/use-auth-store'
 import { useRouter } from 'next/navigation'
-import { useUser } from '@/hooks/use-user'
 
 export default function CoachDashboard() {
   const router = useRouter()
-  const { user, isLoading } = useUser()
-
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-full">Loading...</div>
-  }
+  const user = useUserStore((state) => state.user)
 
   return (
     <div>

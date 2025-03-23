@@ -8,18 +8,14 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { useUser } from '@/hooks/use-user'
 import React from 'react'
+import { useUserStore } from '@/lib/store/use-auth-store'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, isLoading } = useUser()
+  const user = useUserStore((state) => state.user)
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-full">Loading...</div>
-  }
-
-  const SidebarComponent = user.role === 'COACH' ? CoachSidebar : SwimmerSidebar
-  const DashboardHeader = user.role === 'COACH' ? CoachHeader : SwimmerHeader
+  const SidebarComponent = user?.role === 'COACH' ? CoachSidebar : SwimmerSidebar
+  const DashboardHeader = user?.role === 'COACH' ? CoachHeader : SwimmerHeader
 
   return (
     <SidebarProvider>

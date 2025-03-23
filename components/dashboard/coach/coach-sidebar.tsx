@@ -61,15 +61,11 @@ export function CoachSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
       <SidebarFooter>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className='w-full flex items-center justify-start gap-2 px-2'>
-              <Avatar className='w-8 h-8'>
+            <Button className='w-full flex items-center justify-start gap-2 py-6 cursor-pointer'>
+              <Avatar className='size-8'>
                 <AvatarImage alt='User avatar' />
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarFallback className='text-foreground'>U</AvatarFallback>
               </Avatar>
-              <div>
-                <span className='font-medium'></span>
-                <span></span>
-              </div>
             </Button>
           </DropdownMenuTrigger>
         </DropdownMenu>

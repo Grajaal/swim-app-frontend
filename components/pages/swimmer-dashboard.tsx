@@ -1,16 +1,25 @@
-import { Button } from '@/components/ui/button'
-import { useUser } from '@/hooks/use-user'
+import { useUserStore } from '@/lib/store/use-auth-store'
 import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
 
 export default function SwimmerDashboard() {
   const router = useRouter()
-  const { user, isLoading } = useUser()
-
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-full">Loading...</div>
-  }
+  const user = useUserStore((state) => state.user)
 
   return (
-    <div>Swimmers</div>
+    <div>
+      <h1>Swimmer Dashboard</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <Button className='cursor-pointer' onClick={async () => {
+        await fetch('http://localhost:4000/api/auth/logout', {
+          method: 'POST',
+          credentials: 'include'
+        })
+
+        router.push('/login')
+      }}>
+        Logout
+      </Button >
+    </div >
   )
 }
