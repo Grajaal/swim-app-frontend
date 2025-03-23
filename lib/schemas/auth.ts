@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const registerSchema = z
   .object({
@@ -7,6 +7,8 @@ export const registerSchema = z
       message: 'La contraseña tiene que tener al menos 8 carácteres'
     }),
     confirmPassword: z.string(),
+    firstName: z.string().min(1, { message: 'El nombre es requerido' }),
+    lastName: z.string().optional(),
     role: z.enum(['COACH', 'SWIMMER'], {
       message: 'Selecciona un rol'
     })
@@ -14,12 +16,12 @@ export const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Las contraseñas no coinciden',
     path: ['confirmPassword']
-  });
+  })
 
 export const loginSchema = z.object({
   email: z.string().email({ message: 'Introduce un correo que sea válido' }),
   password: z.string().min(1, { message: 'La contraseña es requerida' })
-});
+})
 
-export type RegisterFormValues = z.infer<typeof registerSchema>;
-export type LoginFormValues = z.infer<typeof loginSchema>;
+export type RegisterFormValues = z.infer<typeof registerSchema>
+export type LoginFormValues = z.infer<typeof loginSchema>
