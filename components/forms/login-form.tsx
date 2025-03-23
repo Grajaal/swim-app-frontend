@@ -77,7 +77,7 @@ export function LoginForm({
           {errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
         </div>
         {errors.root && <p className='text-red-500 text-sm'>{errors.root.message}</p>}
-        <Button disabled={isSubmitting} type="submit" className="w-full" tabIndex={3}>
+        <Button disabled={isSubmitting} type="submit" className='w-full cursor-pointer' tabIndex={3}>
           Iniciar sesión
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
