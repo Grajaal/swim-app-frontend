@@ -62,6 +62,11 @@ export function RegisterForm({
       </div>
       <div className='grid gap-6'>
         <div className='grid gap-2'>
+          <Label htmlFor='firstName'>Nombre</Label>
+          <Input {...register('firstName')} type='text' />
+          {errors.firstName && <p className='text-red-500 text-sm'>{errors.firstName.message}</p>}
+          <Label htmlFor='lastName'>Apellidos</Label>
+          <Input {...register('lastName')} type='text' placeholder='Opcional' />
           <Label htmlFor='email'>Correo electrónico</Label>
           <Input {...register('email')} type='email' placeholder='m@example.com' />
           {errors.email && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
@@ -83,7 +88,7 @@ export function RegisterForm({
         </div>
         {errors.root && <p className='text-red-500 text-sm'>{errors.root.message}</p>}
         {success && <p className='text-emerald-500 text-sm'>{success}</p>}
-        <Button disabled={isSubmitting} type='submit' className='w-full'>
+        <Button disabled={isSubmitting} type='submit' className='w-full cursor-pointer'>
           Crear cuenta
         </Button>
         <div className='relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border'>
