@@ -11,10 +11,11 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { BrandHeader } from '../brand-header'
-import { DropdownMenu } from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { DropdownMenuItemLogout } from '@/components/dropdown-logout'
 
 // This is sample data.
 const data = {
@@ -66,8 +67,14 @@ export function CoachSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
                 <AvatarImage alt='User avatar' />
                 <AvatarFallback className='text-foreground'>U</AvatarFallback>
               </Avatar>
+              <span></span>
             </Button>
           </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Cuenta</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItemLogout />
+          </DropdownMenuContent>
         </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
