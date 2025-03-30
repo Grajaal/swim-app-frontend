@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { API_URL } from './lib/api'
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
@@ -15,7 +16,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!isPublicPath && token) {
-    const res = await fetch('http://localhost:4000/api/auth/validate', {
+    const res = await fetch(`${API_URL}/auth/validate`, {
       headers: {
         Cookie: `jwt=${token}`
       }
@@ -28,7 +29,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isPublicPath && token) {
-    const res = await fetch('http://localhost:4000/api/auth/validate', {
+    const res = await fetch(`${API_URL}/auth/validate`, {
       headers: {
         Cookie: `jwt=${token}`
       }

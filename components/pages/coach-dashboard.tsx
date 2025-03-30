@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useUserStore } from '@/lib/store/use-auth-store'
 import { useRouter } from 'next/navigation'
+import { API_URL } from '@/lib/api'
 
 export default function CoachDashboard() {
   const router = useRouter()
@@ -11,7 +12,7 @@ export default function CoachDashboard() {
       <h1>Coach Dashboard</h1>
       <pre>{JSON.stringify(user, null, 2)}</pre>
       <Button className='cursor-pointer' onClick={async () => {
-        await fetch('http://localhost:4000/api/auth/logout', {
+        await fetch(`${API_URL}/auth/logout`, {
           method: 'POST',
           credentials: 'include'
         })

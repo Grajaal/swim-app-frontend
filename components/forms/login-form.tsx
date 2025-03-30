@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation"
 import { LoginFormValues, loginSchema } from "@/lib/schemas/auth"
 import { useUserStore } from '@/lib/store/use-auth-store'
 
+import { API_URL } from "@/lib/api"
+
 export function LoginForm({
   className,
   ...props
@@ -21,7 +23,7 @@ export function LoginForm({
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      const response = await fetch('http://localhost:4000/api/auth/login', {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
