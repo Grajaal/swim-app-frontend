@@ -20,8 +20,6 @@ export function CoachHeader() {
     fetcher
   )
 
-  console.log(team)
-
   return (
     <header className='flex justify-between h-16 shrink-0 items-center border-b mx-4'>
       <SidebarTrigger className='-ml-1 cursor-pointer' />
