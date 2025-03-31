@@ -7,6 +7,7 @@ import { Slider } from '@/components/ui/slider'
 import { useForm } from 'react-hook-form'
 import { API_URL, fetcher } from '@/lib/api'
 import useSWR, { mutate } from 'swr'
+import { JoinTeamForm } from '../forms/join-team-form'
 
 interface Inputs {
   sleepHours: number
@@ -17,7 +18,8 @@ interface Inputs {
 }
 
 export default function SwimmerDashboard() {
-  const { data, isLoading, error } = useSWR('/swimmers/daily-form/status', fetcher)
+  const { data: formData, isLoading: formLoading } = useSWR('/swimmers/daily-form/status', fetcher)
+  const { data: teamData, isLoading: teamLoading } = useSWR('/swimmers/team-status', fetcher)
   const user = useUserStore((state) => state.user)
   const { register, handleSubmit } = useForm<Inputs>({
     defaultValues: {
@@ -51,7 +53,7 @@ export default function SwimmerDashboard() {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         mutate('/swimmers/daily-form/status', { hasSubmitted: true }, false)
       })
       .catch((error) => {
@@ -59,9 +61,19 @@ export default function SwimmerDashboard() {
       })
   }
 
-  if (isLoading) return <div>Cargando...</div>
+  if (formLoading || teamLoading) return <div>Cargando...</div>
 
-  if (data.hasSubmitted) {
+  if (!teamData?.hasTeam) {
+    return (
+      <div className='max-w-md mx-auto p-6'>
+        <h1 className='text-2xl font-bold mb-6'>Bienvenido a SwimApp!</h1>
+        <p className='mb-6'>Necesitas unirte a un equipo para continuar</p>
+        <JoinTeamForm />
+      </div>
+    )
+  }
+
+  if (formData.hasSubmitted) {
     return (
       <div className='flex flex-col items-center justify-center gap-4'>
         <h1 className='text-2xl font-bold'>Formulario enviado</h1>
