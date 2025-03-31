@@ -7,9 +7,6 @@ export async function middleware(request: NextRequest) {
   const isPublicPath = ['/login', '/register'].includes(path)
 
   const token = request.cookies.get('jwt')?.value
-  console.log('Token:', token)
-  console.log('Path:', path)
-  console.log('Is Public Path:', isPublicPath)
 
   if (!isPublicPath && !token) {
     return NextResponse.redirect(new URL('/login', request.url))
