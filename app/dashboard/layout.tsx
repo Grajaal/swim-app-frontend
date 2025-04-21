@@ -8,11 +8,20 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import React from 'react'
 import { useUserStore } from '@/lib/store/use-auth-store'
+import { useEffect, useState } from 'react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = useUserStore((state) => state.user)
+  const [isClient, setIsClient] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient || !user) {
+    return null
+  }
 
   const SidebarComponent = user?.role === 'COACH' ? CoachSidebar : SwimmerSidebar
   const DashboardHeader = user?.role === 'COACH' ? CoachHeader : SwimmerHeader
@@ -22,7 +31,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <SidebarComponent />
       <SidebarInset>
         <DashboardHeader />
-        <main className='p-6'>
+        <main className='p-6 h-full'>
           {children}
         </main>
       </SidebarInset>

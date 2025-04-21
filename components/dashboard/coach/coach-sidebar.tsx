@@ -1,73 +1,79 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar'
 import { BrandHeader } from '../brand-header'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenuItemLogout } from '@/components/dropdown-logout'
+import { useUserStore } from '@/lib/store/use-auth-store'
+import useSWR from 'swr'
+import { fetcher } from '@/lib/api'
+import { Dumbbell, Users } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
-// This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Coach Dashboard",
-      url: "#",
+      title: 'Nadadores',
+      url: '/dashboard',
+      icon: <Users className='size-4' />
     },
     {
-      title: "Building Your Application",
-      url: "#",
-    },
-    {
-      title: "API Reference",
-      url: "#",
-    },
-    {
-      title: "Architecture",
-      url: "#",
+      title: 'Entrenamientos',
+      url: '/dashboard/trainings',
+      icon: <Dumbbell className='size-4' />
     },
   ],
 }
 
 export function CoachSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const user = useUserStore((state) => state.user)
+  const { data: coach } = useSWR(`/coaches/${user?.id}`, fetcher)
+  const pathname = usePathname()
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
         <BrandHeader />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          {data.navMain.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton>
-                <a href={item.url}>{item.title}</a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+        <SidebarGroup>
+          <SidebarMenu>
+            {data.navMain.map((item) => {
+              const isActive = pathname === item.url
+
+              return (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={isActive}>
+                    <Link href={item.url}>
+                      {item.icon}
+                      {item.title}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )
+            })}
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
 
       <SidebarFooter>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className='w-full flex items-center justify-start gap-2 py-6 cursor-pointer'>
-              <Avatar className='size-8'>
-                <AvatarImage alt='User avatar' />
-                <AvatarFallback className='text-foreground'>U</AvatarFallback>
-              </Avatar>
-              <span></span>
+            <Button className='w-full flex items-center justify-start gap-2 py-6 '>
+              <span className='font-semibold'>{coach?.firstName}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -77,6 +83,6 @@ export function CoachSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarFooter>
-    </Sidebar>
+    </Sidebar >
   )
 }

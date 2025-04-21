@@ -13,7 +13,7 @@ export function TeamCodeButton({ teamCode, isLoading, error }: TeamCodeButtonPro
   const copyTeamCode = () => {
     if (teamCode) {
       navigator.clipboard.writeText(teamCode)
-      toast('Código de equipo copiado')
+      toast.success('Código de equipo copiado correctamente')
     } else {
       toast.error('No hay código de equipo')
     }
