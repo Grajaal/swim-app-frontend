@@ -1,26 +1,40 @@
-import { Button } from '@/components/ui/button'
-import { useUserStore } from '@/lib/store/use-auth-store'
-import { useRouter } from 'next/navigation'
-import { API_URL } from '@/lib/api'
+'use client'
+
+import { fetcher } from '@/lib/api'
+import useSWR from 'swr'
+import { SwimmerCard } from '@/components/dashboard/swimmer-card'
+import { DatePicker } from '../dashboard/date-picker'
+import { useState } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function CoachDashboard() {
-  const router = useRouter()
-  const user = useUserStore((state) => state.user)
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+  const { data: swimmers, isLoading } = useSWR('/teams/my-swimmers', fetcher)
 
   return (
-    <div>
-      <h1>Coach Dashboard</h1>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <Button className='cursor-pointer' onClick={async () => {
-        await fetch(`${API_URL}/auth/logout`, {
-          method: 'POST',
-          credentials: 'include'
-        })
+    <>
+      <div className='mb-4'>
+        <DatePicker
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+        />
+      </div>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+        {isLoading ? (
+          Array.from({ length: 6 }).map((_, index) => (
+            <Skeleton key={index} className='h-[125px] w-full rounded-md' />
+          ))
+        ) : (
 
-        router.push('/login')
-      }}>
-        Logout
-      </Button >
-    </div >
+          swimmers.map((swimmer: Swimmer) => (
+            <SwimmerCard
+              key={swimmer.id}
+              swimmer={swimmer}
+              date={selectedDate}
+            />
+          ))
+        )}
+      </div>
+    </>
   )
 }
