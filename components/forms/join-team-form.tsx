@@ -11,10 +11,6 @@ interface Inputs {
   teamCode: string
 }
 
-interface JoinTeamFormProps {
-  onSuccess?: () => void
-}
-
 export function JoinTeamForm() {
   const { register, handleSubmit, setError, formState: { errors } } = useForm<Inputs>()
 
