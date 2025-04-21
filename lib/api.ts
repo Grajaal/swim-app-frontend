@@ -8,3 +8,19 @@ export const fetcher = (endpoint: string) =>
     if (!res.ok) throw new Error(`API error: ${res.status}`)
     return res.json()
   })
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+export const fetcherTest = async (endpoint: string) => {
+  await sleep(3000)
+
+  const res = await fetch(`${API_URL}${endpoint}`, {
+    credentials: 'include'
+  })
+
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status}`)
+  }
+
+  return res.json()
+}
