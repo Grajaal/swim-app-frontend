@@ -18,7 +18,7 @@ import { DropdownMenuItemLogout } from '@/components/dropdown-logout'
 import { useUserStore } from '@/lib/store/use-auth-store'
 import useSWR from 'swr'
 import { fetcher } from '@/lib/api'
-import { Dumbbell, Users } from 'lucide-react'
+import { Bot, Dumbbell, Users } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
@@ -34,6 +34,11 @@ const data = {
       url: '/dashboard/trainings',
       icon: <Dumbbell className='size-4' />
     },
+    {
+      title: 'Asistente',
+      url: '/dashboard/chat',
+      icon: <Bot className='size-4' />
+    }
   ],
 }
 
