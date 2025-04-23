@@ -27,13 +27,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const DashboardHeader = user?.role === 'COACH' ? CoachHeader : SwimmerHeader
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className='flex h-screen'>
       <SidebarComponent />
-      <SidebarInset>
+      <SidebarInset className='overflow-hidden'>
         <DashboardHeader />
-        <main className='p-6 h-full'>
+        <div className='p-6 overflow-hidden h-full'>
           {children}
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )
