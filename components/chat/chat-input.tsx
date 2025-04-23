@@ -1,53 +1,40 @@
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { ArrowUp } from 'lucide-react'
-import { useState } from 'react'
-import { API_URL } from '@/lib/api'
-import { toast } from 'sonner'
 
-export function ChatInput() {
-  const [message, setMessage] = useState<string>('')
+interface ChatInputProps {
+  value: string
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+  onSubmit: () => void
+  isLoading: boolean
+}
 
-  const handleSubmit = async () => {
+export function ChatInput({ value, onChange, onSubmit, isLoading }: ChatInputProps) {
 
-    if (!message.trim()) return
-
-    const response = await fetch(`${API_URL}/ai`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt: message })
-    })
-
-    if (!response.ok) {
-      toast.error('Error al enviar el mensaje')
-    }
-
-    setMessage('')
-  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSubmit()
+      onSubmit()
     }
   }
 
   return (
-    <div className='w-full max-w-lg relative'>
+    <div className='w-full xl:max-w-5xl relative'>
       <Textarea
         onKeyDown={handleKeyDown}
-        className='bg-secondary resize-none'
-        onChange={(e) => setMessage(e.target.value)}
-        value={message}
+        onChange={onChange}
+        value={value}
         placeholder='Escribe un mensaje...'
+        disabled={isLoading}
+        className='bg-secondary resize-none h-30 !text-lg'
       />
       <Button
         size={'icon'}
+        onClick={onSubmit}
         className='absolute rounded-full right-2 bottom-2 h-7 w-7 '
         aria-label='Enviar mensaje'
+        disabled={isLoading || !value.trim()}
       >
         <ArrowUp className='size-5' />
       </Button>
