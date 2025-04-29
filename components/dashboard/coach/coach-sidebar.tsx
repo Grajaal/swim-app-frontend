@@ -21,6 +21,7 @@ import { fetcher } from '@/lib/api'
 import { Bot, Dumbbell, Users } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { UserButton } from '@/components/user-button'
 
 const data = {
   navMain: [
@@ -75,18 +76,7 @@ export function CoachSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
       <SidebarRail />
 
       <SidebarFooter>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className='w-full flex items-center justify-start gap-2 py-6 '>
-              <span className='font-semibold'>{coach?.firstName}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Cuenta</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItemLogout />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <UserButton name={coach?.firstName} />
       </SidebarFooter>
     </Sidebar >
   )

@@ -10,6 +10,13 @@ interface Swimmer {
   lastName: string
 }
 
+interface Coach {
+  id: string
+  firstName: string
+  lastName: string
+  teamCode: string
+}
+
 interface Training {
   id: string
   date: Date
@@ -17,4 +24,12 @@ interface Training {
   minutes: number
   description?: string
   groupId?: string
+}
+
+interface User {
+  id: string
+  email: string
+  role: 'COACH' | 'SWIMMER'
+  swimmer?: Swimmer
+  coach?: Coach
 }

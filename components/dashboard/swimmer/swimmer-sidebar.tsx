@@ -11,12 +11,10 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { BrandHeader } from '../brand-header'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { DropdownMenuItemLogout } from '@/components/dropdown-logout'
 import useSWR from 'swr'
 import { fetcher } from '@/lib/api'
 import { useUserStore } from '@/lib/store/use-auth-store'
+import { UserButton } from '@/components/user-button'
 
 // This is sample data.
 const data = {
@@ -64,18 +62,7 @@ export function SwimmerSidebar({ ...props }: React.ComponentProps<typeof Sidebar
       <SidebarRail />
 
       <SidebarFooter>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className='w-full flex items-center justify-start gap-2 py-6'>
-              <span className='font-semibold'>{swimmer?.firstName}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Cuenta</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItemLogout />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <UserButton name={swimmer?.firstName} />
       </SidebarFooter>
     </Sidebar>
   )

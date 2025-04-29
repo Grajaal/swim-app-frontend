@@ -9,7 +9,6 @@ interface ConfirmationDialogProps {
   confirmButtonText?: string
   confirmButtonVariant?: 'default' | 'destructive'
   cancelButtonText?: string
-
 }
 
 export function ConfirmationDialog({

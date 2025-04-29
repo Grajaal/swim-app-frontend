@@ -4,10 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CreateTrainingDialog } from '@/components/dashboard/coach/create-training-dialog'
 import useSWR, { mutate } from 'swr'
 import { API_URL, fetcher } from '@/lib/api'
-import { CircleAlert, Trash } from 'lucide-react'
+import { CircleAlert } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { DeleteTrainingAlertDialog } from './delete-training-alert-dialog'
 
 interface GroupTrainingsCardProps {
   group: Group
@@ -61,20 +61,16 @@ export function GroupTrainingsCard({ group, date }: GroupTrainingsCardProps) {
                       {training.minutes}min
                     </Badge>
                   </div>
-                  <Button
-                    variant='link'
-                    size='icon'
-                    onClick={() => handleDeleteTraining(training.id)}
-                    className='text-destructive'
-                  >
-                    <Trash className='size-4' />
-                  </Button>
+                  <DeleteTrainingAlertDialog
+                    trainingId={training.id}
+                    handleDeleteTraining={handleDeleteTraining}
+                  />
                 </div>
                 <p className='text-sm text-slate-600'>{training.description}</p>
               </div>
             )
           ) : (
-            <div className='flex items-center justify-center gap-2'>
+            <div className='flex items-center justify-center gap-2 min-h-50'>
               <CircleAlert className='size-4 text-muted-foreground' />
               <span className='text-muted-foreground'>No hay entrenamientos</span>
             </div>

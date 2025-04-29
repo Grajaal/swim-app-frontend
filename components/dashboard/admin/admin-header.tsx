@@ -1,10 +1,12 @@
-import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ModeToggle } from '@/components/mode-toggle'
+import { UserButton } from '@/components/user-button'
 
-export function SwimmerHeader() {
+export function AdminHeader() {
   return (
     <header className='flex justify-between h-16 shrink-0 items-center border-b mx-4'>
-      <SidebarTrigger className='-ml-1 cursor-pointer' />
+      <UserButton
+        name='Admin'
+      />
       <ModeToggle />
     </header>
   )
