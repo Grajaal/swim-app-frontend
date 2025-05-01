@@ -33,3 +33,10 @@ interface User {
   swimmer?: Swimmer
   coach?: Coach
 }
+
+interface UsersApiResponse {
+  users: User[]
+  totalUsers: number
+  totalPages: number
+  currentPage: number
+}
