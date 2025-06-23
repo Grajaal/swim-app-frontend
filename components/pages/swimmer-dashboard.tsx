@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { API_URL, fetcher } from '@/lib/api'
 import useSWR, { mutate } from 'swr'
 import { JoinTeamForm } from '../forms/join-team-form'
+import { Input } from '@/components/ui/input'
 
 interface Inputs {
   sleepHours: number
@@ -39,7 +40,7 @@ export default function SwimmerDashboard() {
       fatigue: parseInt(data.fatigue.toString(), 10),
       stress: parseInt(data.stress.toString(), 10)
     }
-    const userId = user?.id
+    const swimmerId = user?.id
 
     fetch(`${API_URL}/swimmers/daily-form`, {
       method: 'POST',
@@ -48,7 +49,7 @@ export default function SwimmerDashboard() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId,
+        swimmerId,
         ...formData
       }),
     })
@@ -85,11 +86,14 @@ export default function SwimmerDashboard() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 max-w-xl mx-auto'>
       <Label>Horas de sueño</Label>
-      <Slider
-        {...register('sleepHours')}
-        defaultValue={[5]}
-        max={10}
-        min={1}
+      <Input
+        type="number"
+        step="0.5"
+        min={0}
+        max={24}
+        {...register('sleepHours', { valueAsNumber: true })}
+        defaultValue={7}
+        className="w-full"
       />
       <Label>Calidad del sueño</Label>
       <Slider

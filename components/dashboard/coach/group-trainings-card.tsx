@@ -8,6 +8,7 @@ import { CircleAlert } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
 import { DeleteTrainingAlertDialog } from './delete-training-alert-dialog'
+import { format } from 'date-fns'
 
 interface GroupTrainingsCardProps {
   group: Group
@@ -15,7 +16,8 @@ interface GroupTrainingsCardProps {
 }
 
 export function GroupTrainingsCard({ group, date }: GroupTrainingsCardProps) {
-  const { data: trainings } = useSWR(`/groups/${group.id}/trainings?date=${date.toISOString()}`, fetcher)
+  const formattedDate = format(date, 'yyyy-MM-dd')
+  const { data: trainings } = useSWR(`/groups/${group.id}/trainings?date=${formattedDate}`, fetcher)
 
   const handleDeleteTraining = async (trainingId: string) => {
     const response = await fetch(`${API_URL}/groups/${group.id}/trainings/${trainingId}`, {
@@ -31,7 +33,7 @@ export function GroupTrainingsCard({ group, date }: GroupTrainingsCardProps) {
       })
     } else {
       toast.success('Entrenamiento eliminado correctamente')
-      mutate(`/groups/${group.id}/trainings?date=${date.toISOString()}`)
+      mutate(`/groups/${group.id}/trainings?date=${formattedDate}`)
     }
   }
 

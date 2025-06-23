@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { RoleSelect } from '@/components/dashboard/admin/role-select'
 import { useDebounce } from 'use-debounce'
 import { TablePagination } from '@/components/dashboard/admin/table-pagination'
+import { CreateUserDialog } from '@/components/dashboard/admin/create-user-dialog'
 
 export default function AdminDashboard() {
   const [search, setSearch] = useState<string>('')
@@ -17,7 +18,8 @@ export default function AdminDashboard() {
 
   const [debouncedSearch] = useDebounce(search, 500)
 
-  const swrKey = `/users?page=${page}&limit=10${debouncedSearch ? `&search=${encodeURIComponent(debouncedSearch)}` : ''}${role !== 'all' ? `&role=${role}` : ''}`
+  const fetchRole = role === 'ADMIN' ? 'all' : role
+  const swrKey = `/users?page=${page}&limit=10${debouncedSearch ? `&search=${encodeURIComponent(debouncedSearch)}` : ''}${fetchRole !== 'all' ? `&role=${fetchRole}` : ''}`
 
   const { data, isLoading: usersLoading, error } = useSWR<UsersApiResponse>(swrKey, fetcher)
 
@@ -54,6 +56,11 @@ export default function AdminDashboard() {
       setPage((prev) => prev + 1)
   }
 
+  // Filter users client-side if ADMIN role is selected
+  const displayedUsers = role === 'ADMIN'
+    ? data?.users.filter(user => user.role === 'ADMIN') || []
+    : data?.users || []
+
   return (
     <main className='flex justify-center p-4'>
       <div className='flex flex-col w-full max-w-5xl gap-4'>
@@ -64,13 +71,17 @@ export default function AdminDashboard() {
             className='max-w-sm'
             onChange={(e) => setSearch(e.target.value)}
           />
-          <RoleSelect
-            role={role}
-            setRole={setRole}
-          />
+          <div className="flex space-x-2">
+            <RoleSelect
+              role={role}
+              setRole={setRole}
+            />
+            <CreateUserDialog swrKey={swrKey} />
+          </div>
         </div>
         <UsersTable
-          users={data?.users || []}
+          users={displayedUsers} // Use the filtered list
+          swrKey={swrKey} // Pass the SWR key
         />
         {data && (
           <TablePagination

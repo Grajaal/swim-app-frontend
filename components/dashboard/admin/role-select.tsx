@@ -21,6 +21,7 @@ export function RoleSelect({ role, setRole }: RoleSelectProps) {
         <SelectItem value="all">Todos</SelectItem>
         <SelectItem value="SWIMMER">SWIMMER</SelectItem>
         <SelectItem value="COACH">COACH</SelectItem>
+        <SelectItem value="ADMIN">ADMIN</SelectItem>
       </SelectContent>
     </Select>
 

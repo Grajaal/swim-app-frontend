@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { mutate } from 'swr'
+import { format } from 'date-fns'
 
 interface CreateTrainingDialogProps {
   group: Group
@@ -24,12 +25,13 @@ export function CreateTrainingDialog({ group, date }: CreateTrainingDialogProps)
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
   const [isOpen, setIsOpen] = useState(false)
 
-  const formattedDate = date.toISOString().split('T')[0]
+  const displayDate = format(date, 'yyyy-MM-dd')
+  const apiDate = format(date, 'yyyy-MM-dd')
 
   const onSubmit = async (data: Inputs) => {
     const payload = {
       ...data,
-      date: date.toISOString()
+      date: apiDate
     }
 
     const response = await fetch(`${API_URL}/groups/${group.id}/trainings`, {
@@ -47,7 +49,7 @@ export function CreateTrainingDialog({ group, date }: CreateTrainingDialogProps)
       })
     } else {
       setIsOpen(false)
-      mutate(`/groups/${group.id}/trainings?date=${date.toISOString()}`)
+      mutate(`/groups/${group.id}/trainings?date=${apiDate}`)
     }
   }
 
@@ -101,7 +103,7 @@ export function CreateTrainingDialog({ group, date }: CreateTrainingDialogProps)
 
           <div className='space-y-2'>
             <Label htmlFor='date'>Fecha</Label>
-            <Input id='date' type='date' defaultValue={formattedDate} disabled />
+            <Input id='date' type='date' defaultValue={displayDate} disabled />
           </div>
 
           <div className='space-y-2'>

@@ -8,6 +8,7 @@ interface Swimmer {
   id: string
   firstName: string
   lastName: string
+  team?: Team
 }
 
 interface Coach {
@@ -15,6 +16,7 @@ interface Coach {
   firstName: string
   lastName: string
   teamCode: string
+  team?: Team
 }
 
 interface Training {
@@ -29,9 +31,28 @@ interface Training {
 interface User {
   id: string
   email: string
-  role: 'COACH' | 'SWIMMER'
+  role: 'COACH' | 'SWIMMER' | 'ADMIN'
   swimmer?: Swimmer
   coach?: Coach
+}
+
+interface TeamCoach {
+  id: string
+  firstName: string
+  lastName?: string
+}
+
+interface TeamSwimmer {
+  id: string
+  firstName: string
+  lastName?: string
+}
+
+interface Team {
+  id: string
+  teamCode: string
+  coach?: TeamCoach
+  swimmers?: TeamSwimmer[]
 }
 
 interface UsersApiResponse {

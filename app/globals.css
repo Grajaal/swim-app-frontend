@@ -66,11 +66,11 @@
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-1: 220 70% 50%; /* Vivid Blue */
+  --chart-2: 350 70% 55%; /* Vivid Red/Pink */
+  --chart-3: 150 60% 45%; /* Vivid Green */
+  --chart-4: 280 60% 55%; /* Vivid Purple */
+  --chart-5: 40 100% 50%; /* Vivid Orange */
   --radius: 0.625rem;
   --sidebar: oklch(0.984 0.003 247.858);
   --sidebar-foreground: oklch(0.129 0.042 264.695);
@@ -102,11 +102,11 @@
   --border: oklch(0.279 0.041 260.031);
   --input: oklch(0.279 0.041 260.031);
   --ring: oklch(0.446 0.043 257.281);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --chart-1: 220 80% 75%; /* Lighter Vivid Blue */
+  --chart-2: 350 80% 75%; /* Lighter Vivid Red/Pink */
+  --chart-3: 150 70% 70%; /* Lighter Vivid Green */
+  --chart-4: 280 70% 75%; /* Lighter Vivid Purple */
+  --chart-5: 40 100% 70%; /* Lighter Vivid Orange */
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
   --sidebar-primary: oklch(0.488 0.243 264.376);
