@@ -38,11 +38,10 @@ export function LoginForm({
 
       if (user) {
         useUserStore.getState().setUser(user)
-      }
 
-      setTimeout(() => {
-        router.replace('/dashboard')
-      }, 100)
+        router.push('/dashboard')
+        return
+      }
 
     } catch (error: unknown) {
       if (typeof error === 'object' && error && 'status' in error && error.status === 401) {
