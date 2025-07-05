@@ -23,6 +23,8 @@ export function LoginForm({
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
+      console.log('Attempting login to:', `${API_URL}/auth/login`)
+
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         credentials: 'include',
@@ -30,32 +32,43 @@ export function LoginForm({
         body: JSON.stringify(data)
       })
 
+      // Debug logging for headers and response
+      console.log('Login response status:', response.status)
+      console.log('Login response headers:', Object.fromEntries(response.headers.entries()))
+
+      // Check if Set-Cookie header is present
+      const setCookieHeader = response.headers.get('set-cookie')
+      console.log('Set-Cookie header:', setCookieHeader)
+
       if (!response.ok) {
         throw { status: response.status }
       }
 
-      const { user } = await response.json()
+      const responseData = await response.json()
+      console.log('Login response data:', responseData)
 
-      if (user) {
-        useUserStore.getState().setUser(user)
-        console.log('Login successful, redirecting to dashboard')
-
-        // Small delay to ensure cookie is properly set before navigation
-        // This fixes timing issues in production where middleware executes before cookie is available
-        await new Promise(resolve => setTimeout(resolve, 100))
+      if (responseData.user) {
+        useUserStore.getState().setUser(responseData.user)
+        console.log('User set in store:', responseData.user)
       }
 
+      // Check cookies in document after login
+      console.log('Document cookies after login:', document.cookie)
+
+      // Small delay to ensure cookie is properly set before navigation
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      console.log('Redirecting to dashboard...')
       router.push('/dashboard')
 
     } catch (error: unknown) {
+      console.error('Login error:', error)
       if (typeof error === 'object' && error && 'status' in error && error.status === 401) {
         setError('root', { message: 'El correo o la contraseña son incorrectos' })
       } else {
         setError('root', { message: 'Hubo un error al intentar iniciar sesión' })
       }
     }
-
-
   }
 
   return (
