@@ -40,6 +40,18 @@ export function LoginForm({
       const setCookieHeader = response.headers.get('set-cookie')
       console.log('Set-Cookie header:', setCookieHeader)
 
+      // Check our debug headers
+      const cookieDebugHeader = response.headers.get('x-cookie-debug')
+      const isSecureHeader = response.headers.get('x-is-secure')
+      console.log('X-Cookie-Debug header:', cookieDebugHeader)
+      console.log('X-Is-Secure header:', isSecureHeader)
+
+      // Log ALL headers to see what Railway is filtering
+      console.log('ALL response headers:')
+      for (const [key, value] of response.headers.entries()) {
+        console.log(`  ${key}: ${value}`)
+      }
+
       if (!response.ok) {
         throw { status: response.status }
       }
