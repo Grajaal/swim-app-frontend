@@ -6,6 +6,8 @@ export async function middleware(request: NextRequest) {
 
   const isPublicPath = ['/login', '/register'].includes(path)
 
+  await new Promise((resolve) => setTimeout(resolve, 500))
+
   const token = request.cookies.get('jwt')?.value
 
   if (!isPublicPath && !token) {
