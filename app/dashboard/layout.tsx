@@ -8,19 +8,24 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar"
 import { useUserStore } from '@/lib/store/use-auth-store'
-import { useEffect, useState } from 'react'
 import { AdminHeader } from '@/components/dashboard/admin/admin-header'
 import { SwimmerHeader } from '@/components/dashboard/swimmer/swimmer-header'
+import { AuthGuard } from '@/components/auth-guard'
+import { AuthDebug } from '@/components/auth-debug'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthGuard>
+      <DashboardContent>{children}</DashboardContent>
+      <AuthDebug />
+    </AuthGuard>
+  )
+}
+
+function DashboardContent({ children }: { children: React.ReactNode }) {
   const user = useUserStore((state) => state.user)
-  const [isClient, setIsClient] = useState<boolean>(false)
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient || !user) {
+  if (!user) {
     return null
   }
 

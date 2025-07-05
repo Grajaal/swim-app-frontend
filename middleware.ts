@@ -6,12 +6,15 @@ export async function middleware(request: NextRequest) {
   const isPublicPath = ['/login', '/register'].includes(path)
   const token = request.cookies.get('jwt')?.value
 
-  // Redirect to login if accessing protected route without token
+  // Para rutas protegidas, permitir acceso inicial y dejar que el cliente maneje la autenticación
+  // El middleware solo validará si hay cookies (autenticación del lado servidor)
   if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    // No redirigir inmediatamente - dejar que el cliente verifique localStorage
+    // El componente cliente se encargará de la autenticación
+    return NextResponse.next()
   }
 
-  // Validate token for protected routes
+  // Validate token for protected routes (solo si hay cookies)
   if (!isPublicPath && token) {
     try {
       const res = await fetch(`${API_URL}/auth/validate`, {
@@ -35,7 +38,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect authenticated users away from public auth pages
+  // Redirect authenticated users away from public auth pages (solo si hay cookies)
   if (isPublicPath && token) {
     try {
       const res = await fetch(`${API_URL}/auth/validate`, {

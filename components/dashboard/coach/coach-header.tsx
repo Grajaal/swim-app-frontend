@@ -5,18 +5,12 @@ import { ModeToggle } from '../../mode-toggle'
 import useSWR from 'swr'
 import { TeamCodeButton } from './team-code-button'
 
-import { API_URL } from '@/lib/api'
-
-const fetcher = (url: string) =>
-  fetch(url, { credentials: 'include' }).then(res => {
-    if (!res.ok) throw new Error('Failed to fetch team')
-    return res.json()
-  })
+import { fetcher } from '@/lib/api'
 
 export function CoachHeader() {
 
   const { data: team, isLoading, error } = useSWR(
-    `${API_URL}/teams/my-team`,
+    '/teams/my-team',
     fetcher
   )
 

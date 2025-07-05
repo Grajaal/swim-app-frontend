@@ -69,9 +69,17 @@ export function LoginForm({
 
       // SOLUCIÓN ALTERNATIVA: Si no hay cookies, guardar el token en localStorage
       const hasCookie = document.cookie.includes('jwt=')
+      console.log('Has cookie:', hasCookie)
+      console.log('Has token in response:', !!responseData.token)
+
       if (!hasCookie && responseData.token) {
         console.log('Cookie not found, saving token to localStorage')
         localStorage.setItem('jwt_token', responseData.token)
+        console.log('Token saved to localStorage:', responseData.token.substring(0, 20) + '...')
+      } else if (hasCookie) {
+        console.log('Cookie found, not using localStorage')
+      } else {
+        console.log('No cookie and no token in response!')
       }
 
       // Small delay to ensure cookie is properly set before navigation
