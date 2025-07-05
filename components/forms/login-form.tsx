@@ -38,8 +38,9 @@ export function LoginForm({
 
       if (user) {
         useUserStore.getState().setUser(user)
-
-        router.push('/dashboard')
+        console.log('Login successful, redirecting to dashboard')
+        // Use window.location.replace for reliable redirect in production
+        window.location.replace('/dashboard')
         return
       }
 
