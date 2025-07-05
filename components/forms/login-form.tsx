@@ -39,6 +39,10 @@ export function LoginForm({
       if (user) {
         useUserStore.getState().setUser(user)
         console.log('Login successful, redirecting to dashboard')
+
+        // Small delay to ensure cookie is properly set before navigation
+        // This fixes timing issues in production where middleware executes before cookie is available
+        await new Promise(resolve => setTimeout(resolve, 100))
       }
 
       router.push('/dashboard')
