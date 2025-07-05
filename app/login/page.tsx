@@ -1,10 +1,38 @@
+'use client'
+
 import Image from "next/image"
-
 import { Waves } from "lucide-react"
-
 import { LoginForm } from "@/components/forms/login-form"
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { API_URL } from '@/lib/api'
 
-export default async function LoginPage() {
+export default function LoginPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const response = await fetch(`${API_URL}/auth/validate`, {
+          method: 'GET',
+          credentials: 'include'
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.isAuthenticated) {
+            router.push('/dashboard')
+          }
+        }
+      } catch (error) {
+        // If validation fails, stay on login page
+        console.log('Not authenticated, staying on login page')
+      }
+    }
+
+    checkAuthentication()
+  }, [router])
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
