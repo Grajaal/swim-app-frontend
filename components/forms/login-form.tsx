@@ -40,7 +40,9 @@ export function LoginForm({
         useUserStore.getState().setUser(user)
       }
 
-      window.location.href = '/dashboard'
+      setTimeout(() => {
+        router.replace('/dashboard')
+      }, 100)
 
     } catch (error: unknown) {
       if (typeof error === 'object' && error && 'status' in error && error.status === 401) {
