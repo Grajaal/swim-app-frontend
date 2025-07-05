@@ -23,8 +23,6 @@ export function LoginForm({
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      console.log('Attempting login to:', `${API_URL}/auth/login`)
-
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         credentials: 'include',
@@ -32,60 +30,22 @@ export function LoginForm({
         body: JSON.stringify(data)
       })
 
-      // Debug logging for headers and response
-      console.log('Login response status:', response.status)
-      console.log('Login response headers:', Object.fromEntries(response.headers.entries()))
-
-      // Check if Set-Cookie header is present
-      const setCookieHeader = response.headers.get('set-cookie')
-      console.log('Set-Cookie header:', setCookieHeader)
-
-      // Check our debug headers
-      const cookieDebugHeader = response.headers.get('x-cookie-debug')
-      const isSecureHeader = response.headers.get('x-is-secure')
-      console.log('X-Cookie-Debug header:', cookieDebugHeader)
-      console.log('X-Is-Secure header:', isSecureHeader)
-
-      // Log ALL headers to see what Railway is filtering
-      console.log('ALL response headers:')
-      for (const [key, value] of response.headers.entries()) {
-        console.log(`  ${key}: ${value}`)
-      }
-
       if (!response.ok) {
         throw { status: response.status }
       }
 
       const responseData = await response.json()
-      console.log('Login response data:', responseData)
 
       if (responseData.user) {
         useUserStore.getState().setUser(responseData.user)
-        console.log('User set in store:', responseData.user)
       }
 
-      // Check cookies in document after login
-      console.log('Document cookies after login:', document.cookie)
-
-      // SOLUCIÓN ALTERNATIVA: Si no hay cookies, guardar el token en localStorage
+      // Solución híbrida: usar localStorage si no hay cookies
       const hasCookie = document.cookie.includes('jwt=')
-      console.log('Has cookie:', hasCookie)
-      console.log('Has token in response:', !!responseData.token)
-
       if (!hasCookie && responseData.token) {
-        console.log('Cookie not found, saving token to localStorage')
         localStorage.setItem('jwt_token', responseData.token)
-        console.log('Token saved to localStorage:', responseData.token.substring(0, 20) + '...')
-      } else if (hasCookie) {
-        console.log('Cookie found, not using localStorage')
-      } else {
-        console.log('No cookie and no token in response!')
       }
 
-      // Small delay to ensure cookie is properly set before navigation
-      await new Promise(resolve => setTimeout(resolve, 100))
-
-      console.log('Redirecting to dashboard...')
       router.push('/dashboard')
 
     } catch (error: unknown) {

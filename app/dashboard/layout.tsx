@@ -11,13 +11,11 @@ import { useUserStore } from '@/lib/store/use-auth-store'
 import { AdminHeader } from '@/components/dashboard/admin/admin-header'
 import { SwimmerHeader } from '@/components/dashboard/swimmer/swimmer-header'
 import { AuthGuard } from '@/components/auth-guard'
-import { AuthDebug } from '@/components/auth-debug'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
       <DashboardContent>{children}</DashboardContent>
-      <AuthDebug />
     </AuthGuard>
   )
 }
