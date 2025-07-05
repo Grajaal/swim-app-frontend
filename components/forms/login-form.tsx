@@ -67,6 +67,13 @@ export function LoginForm({
       // Check cookies in document after login
       console.log('Document cookies after login:', document.cookie)
 
+      // SOLUCIÓN ALTERNATIVA: Si no hay cookies, guardar el token en localStorage
+      const hasCookie = document.cookie.includes('jwt=')
+      if (!hasCookie && responseData.token) {
+        console.log('Cookie not found, saving token to localStorage')
+        localStorage.setItem('jwt_token', responseData.token)
+      }
+
       // Small delay to ensure cookie is properly set before navigation
       await new Promise(resolve => setTimeout(resolve, 100))
 

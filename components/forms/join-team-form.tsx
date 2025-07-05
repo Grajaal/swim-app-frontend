@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { API_URL } from '@/lib/api'
+import { apiRequest } from '@/lib/api'
 import { mutate } from 'swr'
 
 interface Inputs {
@@ -15,27 +15,26 @@ export function JoinTeamForm() {
   const { register, handleSubmit, setError, formState: { errors } } = useForm<Inputs>()
 
   const onSubmit = async (data: Inputs) => {
-    const response = await fetch(`${API_URL}/swimmers/join-team`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-      credentials: 'include'
-    })
+    try {
+      await apiRequest('/swimmers/join-team', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
 
-    if (!response.ok) {
-      if (response.status === 404) {
+      mutate('/swimmers/team-status', { hasTeam: true })
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      const status = errorMessage.includes('404') ? 404 :
+        errorMessage.includes('409') ? 409 : 500
+
+      if (status === 404) {
         setError('teamCode', { message: 'Ese equipo no existe' })
-      } else if (response.status === 409) {
+      } else if (status === 409) {
         setError('teamCode', { message: 'Ya perteneces a un equipo' })
       } else {
         setError('teamCode', { message: 'Ha ocurrido un error. Intentalo de nuevo' })
       }
-      return
     }
-
-    mutate('/swimmers/team-status', { hasTeam: true })
   }
 
   return (
