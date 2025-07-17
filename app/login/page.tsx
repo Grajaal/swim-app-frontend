@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import { Waves } from "lucide-react"
+import { Waves, User, Key, Eye } from "lucide-react"
 
 import { LoginForm } from "@/components/forms/login-form"
 
@@ -18,6 +18,31 @@ export default async function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
+            {/* Demo User Banner */}
+            <div className="mb-6">
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Eye className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                    ¡Prueba la demo!
+                  </span>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <User className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                    <span className="text-blue-800 dark:text-blue-200">
+                      <strong>Email:</strong> demo@demo.com
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Key className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                    <span className="text-blue-800 dark:text-blue-200">
+                      <strong>Password:</strong> 12345678
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <LoginForm />
           </div>
         </div>
